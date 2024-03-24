@@ -1,18 +1,21 @@
-import express from 'express';
+const { createServer } = require('node:http');
+
+const express = require ('express');
+const ejs = require('ejs');
+const hostname = '127.0.0.1';
+const port = 3000;
+
 const app = express();
 
-app.use(express.json());
+const server = createServer(app) ;
 
+app.use(express.static('public'));
 app.set("view engine", "ejs");
-app.use(express.static("public"));
-
-
-app.use(express.urlencoded({ extended: true }));
 
 app.get('/',(req,res)=>{
-    res.send('Hello World');
+  res.render('dashboard');
 })
 
-app.listen(3000,()=>{
-    console.log('Server listening to the port 3000')
-})
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
